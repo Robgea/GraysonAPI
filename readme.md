@@ -12,7 +12,13 @@ This is being done as a personal project and without the support of the Robin st
 
 * Add a user to your organization
 
-* More will be coming shortly.
+* Get a list of locations in your organization.
+
+* Get a list of amenities in your organization.
+
+* More coming soon. 
+
+All of this is very rough right now.
 
 # Example of use:
 

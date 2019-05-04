@@ -16,7 +16,8 @@ class GraysonAPI:
     # Organizations work
     def get_users(self):
         users_output = requests.get(f'{self.url}organizations/{self.org_id}/users', headers = self.header)
-        return users_output.text
+        loaded_users = json.loads(users_output.text)
+        return loaded_users['data']
 
     def add_user(self, **kwargs):
         invite_name = kwargs['name']
@@ -31,14 +32,14 @@ class GraysonAPI:
 
 
     def get_locations(self):
-        locations_output = requests.get(f'{self.url}organizations/{self.org_id}/locations', headers = self.header)
+        locations_output = requests.get(f'{self.url}organizaXXtions/{self.org_id}/locations', headers = self.header)
         loaded_locations = json.loads(locations_output.text)
         if loaded_locations['meta']['status_code'] == 200:
             return loaded_locations['data']
 
         else:
             print('Hey hey, we have an error!  ')
-            print(f'Error code received. Code: {loaded_locations['meta']['status_code']} ')
+            print(f'Error code received. Code: {loaded_locations["meta"]["status_code"]} ')
 
 
     def get_amenities(self):
