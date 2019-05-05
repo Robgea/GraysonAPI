@@ -29,30 +29,55 @@ class GraysonAPI:
             print(f'Error code received. \n Code: {loaded_users["meta"]["status_code"]} \n Message:  {loaded_users["meta"]["message"]} ')
     
     #parsed user info
+    #also used for adding a user below...
     def get_user_emails(self):
         users_output = requests.get(f'{self.url}organizations/{self.org_id}/users', headers = self.header)
         loaded_users = json.loads(users_output.text)
         if loaded_users['meta']['status_code'] == 200:
-            ouput_dict = { user['name'] : user['primary_email']['email'] for user in loaded_users['data']}
-            return ouput_dict
+            output_dict = { user['name'] : user['primary_email']['email'] for user in loaded_users['data']}
+            return output_dict
 
         else:
             print('Hey hey, we have an error!  ')
             print(f'Error code received. \n Code: {loaded_users["meta"]["status_code"]} \n Message:  {loaded_users["meta"]["message"]} ')
+            #placeholder for error handling to be handed to add_user method. This has to be fixed later.
+            return 'Error!'
 
 
 
     def add_user(self, **kwargs):
+        repeat = False
         invite_name = kwargs['name']
         invite_email = kwargs['email']
+
         # add error catch here
         params = {'name': invite_name, 'email': invite_email, 'format': 'json'}
+
+        if 'repeat' in kwargs:
+            if kwargs['repeat'] == True:
+                repeat = True
+
+        #check to see if the E-mail is already in the organization...
+        if repeat == False:
+            check_list = self.get_user_emails()
+            print(check_list)
+            if check_list == 'Error!':
+                print('Error occured when checking e-mail list. ')
+                # Placeholder error return.
+                return False
+            elif invite_email in check_list.values():
+
+                print('Email already in organization! \n If you want to send this invite set "repeat = true" during function call.')
+                return False
+            else:
+                pass
+
+        print('Sending user creation...')
         new_user = requests.post(f'{self.url}organizations/{self.org_id}/users', headers = self.header, data = params)
         loaded_user_return = json.loads(new_user.text)
         if loaded_user_return['meta']['status_code'] == 200:
             return f"Success, {invite_name} at {invite_email} has been invited into the organization."
         else: 
-
             return loaded_user_return
 
         # gotta do error handling
