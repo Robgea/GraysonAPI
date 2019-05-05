@@ -60,7 +60,7 @@ Adding control over specific room spaces.
 Finding room availability
 Reserving rooms
 Releasing reservations on rooms
-
+Proper error handling.
 
 
 ## Bugs?

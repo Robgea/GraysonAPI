@@ -17,7 +17,7 @@ class GraysonAPI:
 
     
 
-    # raw user info
+    # gets raw user info
     def get_users(self):
         users_output = requests.get(f'{self.url}organizations/{self.org_id}/users', headers = self.header)
         loaded_users = json.loads(users_output.text)
@@ -28,8 +28,7 @@ class GraysonAPI:
             print('Hey hey, we have an error!  ')
             print(f'Error code received. \n Code: {loaded_users["meta"]["status_code"]} \n Message:  {loaded_users["meta"]["message"]} ')
     
-    #parsed user info
-    #also used for adding a user below...
+    #gets parsed user info, used to check that an invite hasn't already been sent.
     def get_user_emails(self):
         users_output = requests.get(f'{self.url}organizations/{self.org_id}/users', headers = self.header)
         loaded_users = json.loads(users_output.text)
@@ -57,7 +56,7 @@ class GraysonAPI:
             if kwargs['repeat'] == True:
                 repeat = True
 
-        #check to see if the E-mail is already in the organization...
+        #This section is used to make sure you're not reinviting someone accidentally. 
         if repeat == False:
             check_list = self.get_user_emails()
             print(check_list)
@@ -80,7 +79,7 @@ class GraysonAPI:
         else: 
             return loaded_user_return
 
-        # gotta do error handling
+
         # If it 409s it still sends an invite. Is that deliberate?
 
 
