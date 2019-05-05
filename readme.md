@@ -59,7 +59,10 @@ print(location_list)
 Adding control over specific room spaces. 
 Finding room availability
 Reserving rooms
-Releasing reservations on rooms
+Releasing reservations on rooms.
+
+Delegating the various methods so that this is vaguely more readable. 
+
 Proper error handling.
 
 
