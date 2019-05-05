@@ -123,6 +123,8 @@ class GraysonAPI:
         if 'time_zone' in kwargs:
             location_info['time_zone'] = kwargs['time_zone']
 
+        #need to add support for other parameters. Openings, etc.
+
         new_location = requests.post(f'{self.url}organizations/{self.org_id}/locations', 
             headers = self.header, data = location_info)
 
@@ -141,3 +143,15 @@ class GraysonAPI:
         else:
             print('Hey hey, we have an error!  ')
             print(f'Error code received. \n Code: {loaded_locations["meta"]["status_code"]} \n Message:  {loaded_locations["meta"]["message"]} ')
+
+    #locations start here.
+    # gotta figure out a way to pass the Location info to this? 
+
+    def get_location_spaces(self, location_id, **kwargs):
+
+        self.location_id = location_id
+
+
+        spaces_list = requests.get(f'{self.url}locations/{self.location_id}/spaces', headers = self.header)
+        loaded_spaces_list = json.loads(spaces_list.text)
+        return loaded_spaces_list['data']
