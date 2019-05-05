@@ -4,7 +4,7 @@ This is a python wrapper designed to work with the Robin room management service
 
 This is being done as a personal project and without the support of the Robin staff.
 
-# Feature List:
+# Feature List (so far):
 
 * Logs you into the Robin API (you need a valid API key and your organization name to do this.)
 
@@ -22,11 +22,44 @@ This is being done as a personal project and without the support of the Robin st
 
 * More coming soon. 
 
-All of this is very rough right now.
+All of this is very rough right now, and will be edited in the coming days (and delegated properly to be more organized.)
 
 # Example of use:
 
-I'll update this with examples of this in use in the very near future.
+
+```python
+
+from grayson import GraysonAPI
+
+gray = GraysonAPI(org_name, API_key)
+
+#invite a user
+
+gray.add_user(name = 'Jason Todd', email = 'BoyWonder2@waynecorp.com)
+
+# get a list of users in the org
+
+user_list = gray.get_users()
+print(user_list)
+
+#add a location
+
+gray.add_location(name = 'The Batcave', address = '1007 Mountain Drive, Gotham, NJ', description = 'Home of the world's largest penny.')
+
+#list locations
+
+location_list = gray.get_locations()
+print(location_list)
+
+
+```
+
+## Next up
+
+Adding control over specific room spaces. 
+Finding room availability
+Reserving rooms
+Releasing reservations on rooms
 
 
 
@@ -36,6 +69,3 @@ API doesn't check to see if Locations already exist with same data. Would be nic
 
 
 ## Questions
-
-Anyway to change the hours in a location from the API?
-Anyway to set the timezone for a location from the API?
