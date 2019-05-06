@@ -31,12 +31,18 @@ Everything is being delegated to the relevant sub-parts of the API. The outline 
 
 ### Organizations:
 
-- List users in your organization. .organization.get_users()
-- Get user emails in your organization. .organization.get_user_emails()
-- Add a user to your organization. .organization.add_user(name = 'relevant name', email = 'relevant email')
-- Get a list of locations in your organization. .organization.get_locations()
-- Add a location to your organization. .organization.add_location(name = 'relevant name', address = 'optional', description = 'optional', image = 'optional url')
-- Get a list of amenities in your organization. .organization.get_amenities()
+- List users in your organization.
+ .organization.get_users()
+- Get user emails in your organization.
+ .organization.get_user_emails()
+- Add a user to your organization.
+ .organization.add_user(name = 'relevant name', email = 'relevant email')
+- Get a list of locations in your organization. 
+.organization.get_locations()
+- Add a location to your organization. 
+.organization.add_location(name = 'relevant name', address = 'optional', description = 'optional', image = 'optional url')
+- Get a list of amenities in your organization. 
+.organization.get_amenities()
 
 ### Sample Code:
 
