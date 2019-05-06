@@ -1,5 +1,6 @@
 import requests
 import json
+from organization import Organization
 
 
 # core API will have API key and org ID
@@ -11,37 +12,32 @@ class GraysonAPI:
         self.org_id = org_id
         self.header = {'Authorization' : f'Access-Token {API_key}'}
         self.url = 'https://api.robinpowered.com/v1.0/'
+        self.organization = Organization(self)
         
 
     # Organizations work
 
-    
+    def get_method(self, **kwargs):
+        branch = kwargs['branch']
+        endpoint = kwargs['endpoint']
+        output = requests.get(f'{self.url}{branch}/{self.org_id}/{endpoint}', headers=self.header)
+        parsed_output = self.return_parser(output)
+        return parsed_output
 
-    # gets raw user info
-    def get_users(self):
-        users_output = requests.get(f'{self.url}organizations/{self.org_id}/users', headers = self.header)
-        loaded_users = json.loads(users_output.text)
-        if loaded_users['meta']['status_code'] == 200:
-            return loaded_users['data']
+    def post_method(self, params = None, **kwargs):
 
-        else:
-            print('Hey hey, we have an error!  ')
-            print(f'Error code received. \n Code: {loaded_users["meta"]["status_code"]} \n Message:  {loaded_users["meta"]["message"]} ')
-    
-    #gets parsed user info, used to check that an invite hasn't already been sent.
-    def get_user_emails(self):
-        users_output = requests.get(f'{self.url}organizations/{self.org_id}/users', headers = self.header)
-        loaded_users = json.loads(users_output.text)
-        if loaded_users['meta']['status_code'] == 200:
-            output_dict = { user['name'] : user['primary_email']['email'] for user in loaded_users['data']}
-            return output_dict
+        new_user = requests.post(f'{self.url}{branch}/{self.org_id}/{endpoint}', headers = self.header, data = params)
+        pass
+
+    def return_parser(self, response):
+        read_output = json.loads(response.text)
+        if read_output['meta']['status_code'] == 200:
+            return read_output['data']
 
         else:
+            # A real error handler will come here eventually. Right now I'm doing this.
             print('Hey hey, we have an error!  ')
-            print(f'Error code received. \n Code: {loaded_users["meta"]["status_code"]} \n Message:  {loaded_users["meta"]["message"]} ')
-            #placeholder for error handling to be handed to add_user method. This has to be fixed later.
-            return 'Error!'
-
+            return f'Error code received. \n Code: {loaded_users["meta"]["status_code"]} \n Message:  {loaded_users["meta"]["message"]} '
 
 
     def add_user(self, **kwargs):
@@ -81,17 +77,6 @@ class GraysonAPI:
 
 
         # If it 409s it still sends an invite. Is that deliberate?
-
-
-    def get_locations(self):
-        locations_output = requests.get(f'{self.url}organizations/{self.org_id}/locations', headers = self.header)
-        loaded_locations = json.loads(locations_output.text)
-        if loaded_locations['meta']['status_code'] == 200:
-            return loaded_locations['data']
-
-        else:
-            print('Hey hey, we have an error!  ')
-            print(f'Error code received. \n Code: {loaded_locations["meta"]["status_code"]} \n Message:  {loaded_locations["meta"]["message"]} ')
 
 
     def add_location(self, **kwargs):
@@ -134,17 +119,8 @@ class GraysonAPI:
         else:
             return loaded_new_location_return
 
-    def get_amenities(self):
-        amenities_output = requests.get(f'{self.url}organizations/{self.org_id}/amenities', headers = self.header)
-        loaded_amenities = json.loads(amenities_output.text)
-        if loaded_amenities['meta']['status_code'] == 200:
-            return loaded_amenities['data']
 
-        else:
-            print('Hey hey, we have an error!  ')
-            print(f'Error code received. \n Code: {loaded_locations["meta"]["status_code"]} \n Message:  {loaded_locations["meta"]["message"]} ')
-
-    #locations start here.
+    # locations start here.
     # gotta figure out a way to pass the Location info to this? 
 
     def get_location_spaces(self, location_id, **kwargs):
@@ -155,3 +131,7 @@ class GraysonAPI:
         spaces_list = requests.get(f'{self.url}locations/{self.location_id}/spaces', headers = self.header)
         loaded_spaces_list = json.loads(spaces_list.text)
         return loaded_spaces_list['data']
+
+    #reserve a space
+    '''check to see if the input is an integer, if it is, great, if not then run the string through a search, 
+    see if the length of the return is greater than 1, if so return the list. If not, book the room.'''
