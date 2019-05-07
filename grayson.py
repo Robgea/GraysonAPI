@@ -40,6 +40,20 @@ class GraysonAPI:
         parsed_output = self.return_parser(output)
         return parsed_output
 
+    def patch_method(self, params = None, **kwargs):
+        if params == None:
+            params = {'format' : 'json'}
+
+        branch = kwargs['branch']
+        endpoint = kwargs['endpoint']
+        info = kwargs['info']
+
+        output = requests.patch(f'{self.url}/{branch}/{info}/{endpoint}', headers = self.header, data = params)
+        parsed_output = self.return_parser(output)
+        return parsed_output
+
+
+
     def return_parser(self, response):
         read_output = json.loads(response.text)
         if str(read_output['meta']['status_code']).startswith('20'):
