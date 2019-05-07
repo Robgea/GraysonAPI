@@ -82,7 +82,7 @@ class Organization(object):
                 location_info['image'] = kwargs['image']
 
         if 'time_zone' in kwargs:
-            location_info['time_zone'] = kwargs['time_zone']
+            location_info.update({'time_zone' : kwargs['time_zone']})
 
         #need to add support for other parameters. Open times, etc. Low priority.
 
