@@ -65,9 +65,42 @@ class Location(object):
             endpoint = 'spaces', params = space_info)
         return new_space
 
+    def update_location(self, location_id = None, **kwargs):
+        # this doesn't return anything if a successful update is made. Which is annoying.
+
+        self.location_id = self._location_check(location_id)
+
+        location_info = {'format': 'json'}
+
+        if 'name' in kwargs:
+            location_info.update({'name' : kwargs['name']})
+
+        if 'description' in kwargs:
+            location_info.update({'description' : kwargs['description']})
+            
+        if 'address' in kwargs:
+            if len(kwargs['address']) < 5:
+                print("Address is too short, please write full address.")
+                return "Error Error"
+            else:
+                location_info.update({'address' : kwargs['address']})
+
+        if 'image' in kwargs:
+            if not kwargs['image'].startswith('http'):
+                print('Image file is not a web address. Try again')
+                return 'ERROR!'
+            else:
+                location_info['image'] = kwargs['image']
+
+        if 'time_zone' in kwargs:
+            location_info.update({'time_zone' : kwargs['time_zone']})
+            
+        updated_location = self.client.patch_method(branch = 'locations', info = self.location_id, endpoint = '', params = location_info)
+        return updated_location
+
 
     def _location_check(self, location):
-        #This checks to make sure a Location ID is given, and also lets the base class ID take over in case a location isn't given here.
+        #This checks to make sure a Location ID is given, and also lets the base class location ID take over in case a location isn't given here.
         if location == None:
             if self.client.loc_id == None:
                 #need to make this an actual error. 
