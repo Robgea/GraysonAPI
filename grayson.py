@@ -1,18 +1,21 @@
 import requests
 import json
 from objects.organization import Organization
+from objects.location import Location
 
 
 # core API will have API key and org ID
 #everything else is a method to call on it
 
 class GraysonAPI:
-    def __init__(self, org_id, API_key):
+    def __init__(self, org_id, API_key, location_id = None):
         self.API_key = API_key
         self.org_id = org_id
+        self.location_id = location_id
         self.header = {'Authorization' : f'Access-Token {API_key}'}
-        self.url = 'https://api.robinpowered.com/v1.0/'
+        self.url = 'https://api.robinpowered.com/v1.0'
         self.organization = Organization(self)
+        self.location = Location(self)
         
 
     # Organizations work
@@ -20,7 +23,8 @@ class GraysonAPI:
     def get_method(self, **kwargs):
         branch = kwargs['branch']
         endpoint = kwargs['endpoint']
-        output = requests.get(f'{self.url}{branch}/{self.org_id}/{endpoint}', headers=self.header)
+        info = kwargs['info']
+        output = requests.get(f'{self.url}/{branch}/{info}/{endpoint}', headers=self.header)
         parsed_output = self.return_parser(output)
         return parsed_output
 
@@ -30,8 +34,9 @@ class GraysonAPI:
 
         branch = kwargs['branch']
         endpoint = kwargs['endpoint']
+        info = kwargs['info']
 
-        output = requests.post(f'{self.url}{branch}/{self.org_id}/{endpoint}', headers = self.header, data = params)
+        output = requests.post(f'{self.url}/{branch}/{info}/{endpoint}', headers = self.header, data = params)
         parsed_output = self.return_parser(output)
         return parsed_output
 
@@ -47,18 +52,3 @@ class GraysonAPI:
 
 
 
-    # locations start here.
-    # gotta figure out a way to pass the Location info to this? 
-
-    def get_location_spaces(self, location_id, **kwargs):
-
-        self.location_id = location_id
-
-
-        spaces_list = requests.get(f'{self.url}locations/{self.location_id}/spaces', headers = self.header)
-        loaded_spaces_list = json.loads(spaces_list.text)
-        return loaded_spaces_list['data']
-
-    #reserve a space
-    '''check to see if the input is an integer, if it is, great, if not then run the string through a search, 
-    see if the length of the return is greater than 1, if so return the list. If not, book the room.'''

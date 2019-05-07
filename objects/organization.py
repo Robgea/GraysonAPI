@@ -6,21 +6,21 @@ class Organization(object):
       self.client = client
         
     def get_users(self):
-        users_output = self.client.get_method(branch = 'organizations', endpoint = 'users')
+        users_output = self.client.get_method(branch = 'organizations', endpoint = 'users', info = self.client.org_id)
         return users_output
 
     #gets parsed user info, used to check that an invite hasn't already been sent.
     def get_user_emails(self):
-        users_output = self.client.get_method(branch = 'organizations', endpoint = 'users')
+        users_output = self.client.get_method(branch = 'organizations', endpoint = 'users', info = self.client.org_id)
         output_dict = { user['name'] : user['primary_email']['email'] for user in users_output}
         return output_dict
         
     def get_locations(self):
-        locations_output = self.client.get_method(branch = 'organizations', endpoint = 'locations')
+        locations_output = self.client.get_method(branch = 'organizations', endpoint = 'locations', info = self.client.org_id)
         return locations_output
 
     def get_amenities(self):
-        amenities_output = self.client.get_method(branch = 'organizations', endpoint = 'amenities')
+        amenities_output = self.client.get_method(branch = 'organizations', endpoint = 'amenities', info = self.client.org_id)
         return amenities_output
 
     def add_user(self, **kwargs):
@@ -50,7 +50,7 @@ class Organization(object):
             else:
                 pass
 
-        new_user = self.client.post_method(branch = 'organizations', endpoint = 'users', params = params)
+        new_user = self.client.post_method(branch = 'organizations', endpoint = 'users', params = params, info = self.client.org_id)
         
         return new_user
 
@@ -86,5 +86,5 @@ class Organization(object):
 
         #need to add support for other parameters. Open times, etc. Low priority.
 
-        new_location = self.client.post_method(branch = 'organizations', endpoint = 'locations', params = location_info)
+        new_location = self.client.post_method(branch = 'organizations', endpoint = 'locations', params = location_info, info = self.client.org_id)
         return new_location
