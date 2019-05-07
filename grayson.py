@@ -8,10 +8,10 @@ from objects.location import Location
 #everything else is a method to call on it
 
 class GraysonAPI:
-    def __init__(self, org_id, API_key, location_id = None):
+    def __init__(self, org_id, API_key, loc_id = None):
         self.API_key = API_key
         self.org_id = org_id
-        self.location_id = location_id
+        self.loc_id = loc_id
         self.header = {'Authorization' : f'Access-Token {API_key}'}
         self.url = 'https://api.robinpowered.com/v1.0'
         self.organization = Organization(self)
