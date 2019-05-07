@@ -29,7 +29,7 @@ All of this is very rough right now, and will be edited in the coming days (and 
 
 Everything is being delegated to the relevant sub-parts of the API. The outline so far:
 
-### Organizations:
+### Organization:
 
 - List users in your organization.
  .organization.get_users()
@@ -43,6 +43,13 @@ Everything is being delegated to the relevant sub-parts of the API. The outline 
 .organization.add_location(name = 'relevant name', address = 'optional', description = 'optional', image = 'optional url')
 - Get a list of amenities in your organization. 
 .organization.get_amenities()
+
+### Location:
+
+- Get Location info.
+- Get Spaces in a location.
+- Get current presences in a location.
+- Soon to have adding a space to a location. There's currently a bug there server side. 
 
 ### Sample Code:
 
