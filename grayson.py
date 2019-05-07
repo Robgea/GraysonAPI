@@ -1,6 +1,6 @@
 import requests
 import json
-from organization import Organization
+from objects.organization import Organization
 
 
 # core API will have API key and org ID
