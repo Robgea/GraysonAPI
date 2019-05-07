@@ -66,11 +66,11 @@ print(user_list)
 
 #add a location
 
-gray.add_location(name = 'The Batcave', address = '1007 Mountain Drive, Gotham, NJ', description = 'Home of the world's largest penny.')
+gray.organization.add_location(name = 'The Batcave', address = '1007 Mountain Drive, Gotham, NJ', description = 'Home of the world's largest penny.')
 
 #list locations
 
-location_list = gray.get_locations()
+location_list = gray.organization.get_locations()
 print(location_list)
 
 
