@@ -11,14 +11,7 @@ class Location(object):
 
     def get_location_spaces(self, location_id = None):
         #might need to create a list version of this function to enable easy searching for other room reservation functions.
-
-        self.location_id = location_id
-
-        #This checks to make sure a Location ID is given, and also lets the base class ID take over in case a location isn't given here.
-        if self.location_id == None:
-            self.location_id = self.client.loc_id 
-            if self.location_id == None:
-                return 'Error, need to provide a location ID.'
+        self.location_id = self._location_check(location_id)
 
         spaces_list = self.client.get_method(branch = 'locations', info = self.location_id, endpoint = 'spaces')
 
@@ -27,33 +20,20 @@ class Location(object):
 
 
     def get_location_info(self, location_id = None):
-        self.location_id = location_id
-        if self.location_id == None:
-            self.location_id = self.client.loc_id 
-            if self.location_id == None:
-                return 'Error, need to provide a location ID.'
+        self.location_id = self._location_check(location_id)
 
         location_info = self.client.get_method(branch = 'locations', info = self.location_id, endpoint = '')
         return location_info
 
     def get_location_presence(self, location_id = None):
-        self.location_id = location_id
-        if self.location_id == None:
-            self.location_id = self.client.loc_id 
-            if self.location_id == None:
-                return 'Error, need to provide a location ID.'
+        self.location_id = self._location_check(location_id)
 
         presence_info = self.client.get_method(branch = 'locations', info = self.location_id, endpoint = 'presence')
 
     def add_location_space(self, location_id = None, **kwargs):
-        #Bug found, not working. Will try to figure out what's going on.
-        self.location_id = location_id
-        if self.location_id == None:
-            self.location_id = self.client.loc_id 
-            if self.location_id == None:
-                return 'Error, need to provide a location ID.'
+        self.location_id = self._location_check(location_id)
 
-        space_info = {'name': '', 'description': '', 'image' : '', 'is_accessible' : False, 'format': 'json'}
+        space_info = {'name': '', 'description': '', 'image' : '', 'behaviors' : ['scheduling'] , 'format': 'json'}
 
         if 'name' not in kwargs:
             print('No name given, invalid input!')
@@ -78,10 +58,28 @@ class Location(object):
             #Should include a conversion if someone puts it in as a string. 
             if type(kwargs['capacity']) == int:
                 space_info.update({'capacity' : kwargs['capacity']})
+        if 'is_accessible' in kwargs:
+            space_info.update({'is_accessible' : kwargs['is_accessible']})
 
         new_space = self.client.post_method(branch = 'locations', info = self.location_id, 
             endpoint = 'spaces', params = space_info)
         return new_space
+
+
+    def _location_check(self, location):
+        #This checks to make sure a Location ID is given, and also lets the base class ID take over in case a location isn't given here.
+        if location == None:
+            if self.client.loc_id == None:
+                #need to make this an actual error. 
+                print('No location given.')
+                return 'Gotta give a location! Error!'
+                
+            else:
+                return self.client.loc_id
+
+        return location
+
+
 
 
 
