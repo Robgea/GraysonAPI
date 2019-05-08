@@ -53,7 +53,13 @@ class GraysonAPI:
         parsed_output = self.return_parser(output)
         return parsed_output
 
-
+    def delete_method(self, **kwargs):
+        branch = kwargs['branch']
+        endpoint = kwargs['endpoint']
+        info = kwargs['info']
+        output = requests.delete(f'{self.url}/{branch}/{info}/{endpoint}', headers=self.header)
+        parsed_output = self.return_parser(output)
+        return parsed_output    
 
     def return_parser(self, response):
         read_output = json.loads(response.text)
