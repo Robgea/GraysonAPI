@@ -2,6 +2,7 @@ import requests
 import json
 from objects.organization import Organization
 from objects.location import Location
+from objects.spaces import Spaces
 
 
 # core API will have API key and org ID
@@ -16,7 +17,7 @@ class GraysonAPI:
         self.url = 'https://api.robinpowered.com/v1.0'
         self.organization = Organization(self)
         self.location = Location(self)
-        
+        self.spaces = Spaces(self)
 
     # Organizations work
 
