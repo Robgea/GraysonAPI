@@ -35,4 +35,11 @@ class Spaces(object):
         return updated_space
 
     def delete_space(self, spaceid):
-        pass
+
+        deletion_return = self.client.delete_method(branch = 'spaces', info = spaceid, endpoint = '')
+        return deletion_return
+
+        
+
+
+        
