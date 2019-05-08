@@ -2,7 +2,7 @@
 
 This is a python wrapper designed to work with the Robin room management service (find out more at: https://robinpowered.com/ ). 
 
-This is being done as a personal project and without the support of the Robin staff.
+This is being done as a personal project and without the direct involvement of the Robin staff.
 
 
 # Feature List (so far):
