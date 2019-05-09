@@ -21,12 +21,16 @@ class GraysonAPI:
 
     # Organizations work
 
-    def get_method(self, **kwargs):
+    def get_method(self, params = None, **kwargs):
+        if params == None:
+            params = {'format' : 'json'}
         branch = kwargs['branch']
         endpoint = kwargs['endpoint']
         info = kwargs['info']
-        output = requests.get(f'{self.url}/{branch}/{info}/{endpoint}', headers=self.header)
+        print(params)
+        output = requests.get(f'{self.url}/{branch}/{info}/{endpoint}', headers=self.header, data = params)
         parsed_output = self.return_parser(output)
+
         return parsed_output
 
     def post_method(self, params = None, **kwargs):

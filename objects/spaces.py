@@ -1,4 +1,4 @@
-
+import datetime
 
 class Spaces(object):
 
@@ -39,7 +39,14 @@ class Spaces(object):
         deletion_return = self.client.delete_method(branch = 'spaces', info = spaceid, endpoint = '')
         return deletion_return
 
-        
+    def get_space_events(self, spaceid, before = '2019-05-09T11:16:00-0500'):
+        self.before = before
+        print(self.before)
+        event_range = {'before' : self.before ,'format' : 'json'}
+
+
+        events_return = self.client.get_method(branch = 'spaces', info = spaceid, endpoint = 'events', params = event_range)
+        return events_return
 
 
         
