@@ -27,8 +27,7 @@ class GraysonAPI:
         branch = kwargs['branch']
         endpoint = kwargs['endpoint']
         info = kwargs['info']
-        print(params)
-        output = requests.get(f'{self.url}/{branch}/{info}/{endpoint}', headers=self.header, data = params)
+        output = requests.get(f'{self.url}/{branch}/{info}/{endpoint}', headers=self.header, params = params)
         parsed_output = self.return_parser(output)
 
         return parsed_output
