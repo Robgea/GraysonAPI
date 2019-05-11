@@ -49,7 +49,8 @@ class Spaces(object):
 
 
     def book_event(self, spaceid, **kwargs):
-        booking_info = {"title" : "Batmeeting",
+        booking_info = {
+        "title" : "Batmeeting",
         'description' : 'Someone has been eating the bat cookies',
         'start' : {'date_time' : str(datetime.datetime.now().isoformat()),
         'time_zone' : 'America/New_York'},
