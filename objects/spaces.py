@@ -46,12 +46,15 @@ class Spaces(object):
 
 
         if before == None:
-            #before = f'{datetime.date.today().isoformat()}T00:01:00Z'
-            before = '2019-05-09T11:16:00Z'
+            before = f'{datetime.date.today().isoformat()}T23:59:00Z'
+            #before = '2020-03-19T23:16:00Z'
 
         if after == None:
-            #after = f'{datetime.date.today().isoformat()}T23:59:00Z'
-            after = '2019-01-09T11:16:00Z'
+            after = f'{datetime.date.today().isoformat()}T00:01:00Z'
+            #after = '2020-03-18T00:01:00Z'
+
+        if before < after:
+            return 'Error: End of date range precedes the start of the date range.'
 
         #before = '2019-05-09T11:16:00Z', after = '2019-01-09T11:16:00Z'
 
@@ -66,11 +69,12 @@ class Spaces(object):
         booking_info = {
         "title" : "Batmeeting",
         'description' : 'Someone has been eating the bat cookies',
-        'start' : {'date_time' : str(datetime.datetime.now().isoformat()),
-        'time_zone' : 'America/New_York'},
-        'end' : 
-        { 'date_time' : str(datetime.datetime(2019, 5, 10, hour = 23, minute = 50, second = 0).isoformat()),
-        'time_zone' : 'America/New_York'},
+        "start": {
+            "date_time": "2019-05-14T06:00:00Z",
+            "time_zone": "America/New_York"},
+            "end": {
+            "date_time": "2019-05-14T07:00:00Z",
+            "time_zone": "America/New_York"},
         'invitees' : [{'email' : 'zhouenkissinger@gmail.com'}], 'format' : 'json'}
         print(booking_info)
         events_return = self.client.post_method(branch = 'spaces', info = spaceid, endpoint = 'events', params = booking_info)
